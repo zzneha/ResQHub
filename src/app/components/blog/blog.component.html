@@ -1,0 +1,132 @@
+<div class="min-h-screen bg-gray-50 py-8">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+    <h1 class="text-3xl font-bold text-gray-900 mb-8">Volunteer Updates</h1>
+    
+    <!-- New Post Form for Volunteers -->
+    <div *ngIf="isVolunteer" class="bg-white shadow rounded-lg mb-8 p-6">
+      <form (ngSubmit)="createPost()" class="space-y-4">
+        <textarea
+          [(ngModel)]="newPostContent"
+          name="content"
+          rows="3"
+          class="w-full border rounded-md p-2"
+          placeholder="Share an update..."
+        ></textarea>
+        <button
+          type="submit"
+          class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700"
+        >
+          Post Update
+        </button>
+      </form>
+    </div>
+
+    <!-- Posts List -->
+    <div class="space-y-6">
+      <div *ngFor="let post of posts; trackBy: post.id" class="bg-white shadow rounded-lg">
+
+
+
+
+
+        <div class="p-6">
+          <div class="flex justify-between items-start">
+            <div>
+              <h3 class="text-lg font-semibold">{{ post.author_name }}</h3>
+              <p class="text-gray-500 text-sm">{{ post.created_at | date:'medium' }}</p>
+            </div>
+          </div>
+          
+          <p class="mt-4">{{ post.content }}</p>
+          
+          <div class="mt-4 flex items-center space-x-4">
+            <button
+              (click)="likePost(post.id)"
+              class="flex items-center space-x-1 text-gray-500 hover:text-blue-600"
+            >
+              <span class="text-sm">{{ post.likes }} Likes</span>
+            </button>
+            <button
+              (click)="toggleComments(post.id)"
+              class="text-gray-500 hover:text-blue-600 text-sm"
+            >
+              Show Comments
+            </button>
+          </div>
+
+        <div class="p-6">
+          <div class="flex justify-between items-start">
+            <div>
+              <h3 class="text-lg font-semibold">{{ post.author_name }}</h3>
+              <p class="text-gray-500 text-sm">{{ post.created_at | date:'medium' }}</p>
+            </div>
+          </div>
+          
+          <p class="mt-4">{{ post.content }}</p>
+          
+          <div class="mt-4 flex items-center space-x-4">
+            <button
+              (click)="likePost(post.id)"
+              class="flex items-center space-x-1 text-gray-500 hover:text-blue-600"
+            >
+              <span class="text-sm">{{ post.likes }} Likes</span>
+            </button>
+            <button
+              (click)="toggleComments(post.id)"
+              class="text-gray-500 hover:text-blue-600 text-sm"
+            >
+              Show Comments
+            </button>
+          </div>
+
+          <!-- Comments Section -->
+          <div *ngIf="expandedPost === post.id" class="mt-4">
+            <div class="border-t pt-4">
+              <div *ngFor="let comment of comments.get(post.id) ?? []; trackBy: comment.id" class="mb-4">
+
+
+
+
+
+                <div class="flex items-start space-x-2">
+                  <div>
+                    <p class="font-semibold text-sm">{{ comment.author_name }}</p>
+                    <p class="text-gray-600 text-sm">{{ comment.content }}</p>
+                    <p class="text-gray-400 text-xs">{{ comment.created_at | date:'short' }}</p>
+                  </div>
+                </div>
+              </div>
+
+                <div class="flex items-start space-x-2">
+                  <div>
+                    <p class="font-semibold text-sm">{{ comment.author_name }}</p>
+                    <p class="text-gray-600 text-sm">{{ comment.content }}</p>
+                    <p class="text-gray-400 text-xs">{{ comment.created_at | date:'short' }}</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- New Comment Form -->
+              <form (ngSubmit)="addComment(post.id)" class="mt-4">
+                <div class="flex space-x-2">
+                  <input
+                    [(ngModel)]="newCommentContent"
+                    name="comment"
+                    class="flex-1 border rounded-md px-3 py-1"
+                    placeholder="Add a comment..."
+                  />
+                  <button
+                    type="submit"
+                    class="bg-gray-100 px-4 py-1 rounded-md hover:bg-gray-200"
+                  >
+                    Comment
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
