@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-login',
@@ -71,11 +73,17 @@ import { RouterLink } from '@angular/router';
   `
 })
 export class LoginComponent {
-  email: string = '';
-  password: string = '';
+  email: any;
+  password: any;
+  constructor(private router: Router) {} // Inject Router
 
   onSubmit() {
-    // TODO: Implement login logic with Supabase
     console.log('Login attempt:', this.email);
+
+    // TODO: Implement actual authentication with Supabase
+    if (this.email && this.password) {
+      // Redirect user after login
+      this.router.navigate(['/dashboard']); // Change '/dashboard' to your desired route
+    }
   }
 }
