@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
+import { ReportService } from '../services/report.service';
 
 @Component({
   selector: 'app-header',
@@ -25,7 +26,9 @@ import { AuthService } from '../services/auth.service';
           <a routerLink="/shelters" routerLinkActive="active" class="nav-link glass-hover">Find Shelter</a>
         </nav>
         <div class="action-buttons">
-          <a routerLink="/report" class="btn btn-primary glass-hover">Report</a>
+          <a *ngIf="isVolunteer" 
+             routerLink="/report" 
+             class="btn btn-primary glass-hover">Report</a>
           @if (isLoggedIn) {
             <div class="user-menu">
               <a routerLink="/account" class="btn btn-secondary glass-hover">Account</a>
@@ -44,6 +47,7 @@ import { AuthService } from '../services/auth.service';
       position: sticky;
       top: 0;
       z-index: 100;
+      color: white;
     }
 
     .header-content {
@@ -101,28 +105,6 @@ import { AuthService } from '../services/auth.service';
       gap: 0.5rem;
     }
 
-    .alert-subscription {
-      padding: 0.75rem 0;
-    }
-
-    .subscription-form {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-    }
-
-    .subscription-input {
-      width: 300px;
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
-      font-size: 0.875rem;
-    }
-
-    .subscription-input:focus {
-      outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px rgba(91, 125, 177, 0.2);
-    }
 
     .btn-primary {
       background: #229954;
@@ -146,34 +128,51 @@ import { AuthService } from '../services/auth.service';
 
     .btn-secondary:hover {
       background: rgba(34, 153, 84, 0.15);
-      border-color: rgba(34, 153, 84, 0.3);
+      border-color: rgba(19, 246, 113, 0.3);
       transform: translateY(-1px);
-    }
-
-    @media (max-width: 768px) {
-      .nav-links {
-        display: none;
-      }
-
-      .subscription-form {
-        flex-direction: column;
-        align-items: stretch;
-      }
-
-      .subscription-input {
-        width: 100%;
-      }
     }
   `]
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   email = '';
   isLoggedIn = false;
+  isVolunteer = false;
 
-  constructor(private authService: AuthService) {
+  constructor(
+    private authService: AuthService,
+    private reportService: ReportService,
+    private cdr: ChangeDetectorRef
+  ) {}
+
+  ngOnInit() {
+    console.log('HeaderComponent initialized');
     this.authService.currentUser$.subscribe(user => {
+      console.log('Auth state changed:', user ? 'User logged in' : 'No user');
       this.isLoggedIn = !!user;
+      console.log('isLoggedIn set to:', this.isLoggedIn);
+      
+      if (this.isLoggedIn) {
+        console.log('User is logged in, checking volunteer status');
+        this.checkVolunteerStatus();
+      } else {
+        console.log('User is not logged in, setting isVolunteer to false');
+        this.isVolunteer = false;
+        this.cdr.detectChanges();
+      }
     });
+  }
+
+  private async checkVolunteerStatus() {
+    try {
+      console.log('Starting volunteer status check...');
+      this.isVolunteer = await this.reportService.checkVolunteerAccess();
+      console.log('Volunteer status check completed. isVolunteer:', this.isVolunteer);
+      this.cdr.detectChanges();
+    } catch (error) {
+      console.error('Error checking volunteer status:', error);
+      this.isVolunteer = false;
+      this.cdr.detectChanges();
+    }
   }
 
   onSubscribe() {
@@ -182,6 +181,7 @@ export class HeaderComponent {
   }
 
   logout() {
+    console.log('Logging out...');
     this.authService.logout();
   }
 }

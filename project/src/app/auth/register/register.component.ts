@@ -5,13 +5,14 @@ import { FormsModule } from '@angular/forms';
 import { VolunteerService } from '../../services/volunteer.service';
 import { Router } from '@angular/router';
 
+
 @Component({
   selector: 'app-register',
   standalone: true,
   imports: [CommonModule, RouterModule, FormsModule],
   template: `
-    <div class="login-container">
-      <div class="login-background">
+    <div class="register-container">
+      <div class="register-background">
         <div class="animated-scene">
           <div class="satellite"></div>
           <div class="truck truck-1"></div>
@@ -24,18 +25,18 @@ import { Router } from '@angular/router';
 
       <div class="content-wrapper">
         <div class="branding">
-          <h1>ResQHub</h1>
-          <p class="tagline">Join our community of dedicated volunteers making a difference in emergency response</p>
+          <h1>Join ResQHub</h1>
+          <p class="tagline">Become a volunteer and help make a difference in your community during times of crisis</p>
         </div>
 
-        <div class="login-card glass">
+        <div class="register-card glass">
           <h2>Volunteer Registration</h2>
           
-          <form class="login-form" (ngSubmit)="onSubmit()">
+          <form class="register-form" (ngSubmit)="onSubmit()">
             <div class="form-group">
               <label class="form-label">Full Name</label>
               <div class="input-wrapper">
-                <i class="input-icon fas fa-user"></i>
+                <span class="input-icon">👤</span>
                 <input 
                   type="text" 
                   class="form-input"
@@ -49,7 +50,7 @@ import { Router } from '@angular/router';
             <div class="form-group">
               <label class="form-label">Email</label>
               <div class="input-wrapper">
-                <i class="input-icon fas fa-envelope"></i>
+                <span class="input-icon">📧</span>
                 <input 
                   type="email" 
                   class="form-input"
@@ -63,7 +64,7 @@ import { Router } from '@angular/router';
             <div class="form-group">
               <label class="form-label">Phone</label>
               <div class="input-wrapper">
-                <i class="input-icon fas fa-phone"></i>
+                <span class="input-icon">📱</span>
                 <input 
                   type="tel" 
                   class="form-input"
@@ -116,14 +117,14 @@ import { Router } from '@angular/router';
     </div>
   `,
   styles: [`
-    .login-container {
+    .register-container {
       min-height: 100vh;
       position: relative;
       display: flex;
       background: linear-gradient(135deg, #229954 0%, #27ae60 100%);
     }
 
-    .login-background {
+    .register-background {
       position: absolute;
       top: 0;
       left: 0;
@@ -145,7 +146,7 @@ import { Router } from '@angular/router';
       width: 120%;
       height: 120%;
       border-radius: 50%;
-      background: #1a7441;
+      background: #229954;
       transform: rotate(-15deg);
     }
 
@@ -155,8 +156,7 @@ import { Router } from '@angular/router';
       right: 15%;
       width: 60px;
       height: 40px;
-      background: #fff;
-      border-radius: 8px;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23fff" d="M21 8.5c0-.83-.67-1.5-1.5-1.5S18 7.67 18 8.5s.67 1.5 1.5 1.5S21 9.33 21 8.5zM4.5 8C3.67 8 3 8.67 3 9.5S3.67 11 4.5 11 6 10.33 6 9.5 5.33 8 4.5 8zm9-2.5c0-.83-.67-1.5-1.5-1.5S11 4.67 11 5.5 11.67 7 12.5 7 13.5 6.33 13.5 5.5z"/></svg>');
       animation: float 20s infinite linear;
     }
 
@@ -217,6 +217,7 @@ import { Router } from '@angular/router';
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 4rem;
     }
 
     .branding {
@@ -236,21 +237,20 @@ import { Router } from '@angular/router';
       opacity: 0.9;
     }
 
-    .login-card {
-      width: 450px;
+    .register-card {
+      width: 500px;
       padding: 2rem;
       border-radius: 20px;
-      background: rgba(255, 255, 255, 0.95);
+      background: rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(10px);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1),
-                  0 2px 8px rgba(34, 153, 84, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
-    .login-card h2 {
+    .register-card h2 {
       text-align: center;
       font-size: 1.75rem;
       margin-bottom: 2rem;
-      color: #229954;
+      color: white;
     }
 
     .form-group {
@@ -260,87 +260,93 @@ import { Router } from '@angular/router';
     .form-label {
       display: block;
       margin-bottom: 0.5rem;
-      color: #34495e;
-      font-weight: 600;
-      font-size: 0.9rem;
-      letter-spacing: 0.5px;
+      color: white;
+      font-weight: 500;
     }
 
     .input-wrapper {
       position: relative;
-      display: flex;
-      align-items: flex-start;
-      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
     .input-icon {
       position: absolute;
       left: 1rem;
-      top: 0.75rem;
-      font-size: 1.1rem;
-      color: #229954;
-      opacity: 0.8;
-      transition: all 0.3s ease;
-    }
-
-    .input-wrapper:focus-within .input-icon {
-      opacity: 1;
-      color: #229954;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.25rem;
     }
 
     .form-input {
       width: 100%;
-      padding: 0.75rem 1rem 0.75rem 3rem;
-      border: 2px solid rgba(34, 153, 84, 0.1);
-      border-radius: 12px;
+      padding: 1rem 3rem;
+      border: none;
+      background: transparent;
+      color: white;
       font-size: 1rem;
-      background: rgba(255, 255, 255, 0.95);
-      color: #2c3e50;
-      transition: all 0.3s ease;
       caret-color: #229954;
-      cursor: text;
+    }
+
+    textarea.form-input {
+      padding: 1rem;
+      min-height: 100px;
+      resize: vertical;
     }
 
     .form-input::placeholder {
-      color: #95a5a6;
-    }
-
-    .form-input:hover {
-      border-color: rgba(34, 153, 84, 0.3);
-      background: rgba(255, 255, 255, 1);
+      color: rgba(255, 255, 255, 0.6);
     }
 
     .form-input:focus {
       outline: none;
-      border-color: #229954;
-      background: #ffffff;
-      box-shadow: 0 0 0 4px rgba(34, 153, 84, 0.1);
+      box-shadow: 0 0 0 2px rgba(34, 153, 84, 0.3);
+      border-color: rgba(34, 153, 84, 0.5);
     }
 
-    textarea.form-input {
-      min-height: 100px;
-      resize: vertical;
-      line-height: 1.5;
-      padding-top: 1rem;
-      padding-left: 3rem;
-    }
-
-    .btn {
-      width: 100%;
-      padding: 0.75rem;
+    .toggle-password {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
       border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: 600;
+      color: white;
       cursor: pointer;
-      transition: all 0.3s ease;
+      padding: 0;
+      font-size: 1.25rem;
+    }
+
+    .error-message {
+      color: #e74c3c;
+      margin-bottom: 1rem;
+      text-align: center;
+      padding: 0.75rem;
+      background: rgba(231, 76, 60, 0.1);
+      border-radius: 8px;
+      border: 1px solid rgba(231, 76, 60, 0.2);
+    }
+
+    .success-message {
+      color: #229954;
+      margin-bottom: 1rem;
+      text-align: center;
+      padding: 0.75rem;
+      background: rgba(34, 153, 84, 0.1);
+      border-radius: 8px;
+      border: 1px solid rgba(34, 153, 84, 0.2);
     }
 
     .btn-primary {
+      width: 100%;
+      padding: 1rem;
       background: #229954;
       color: white;
       border: none;
-      transform: translateY(0);
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
       transition: all 0.3s ease;
     }
 
@@ -350,107 +356,84 @@ import { Router } from '@angular/router';
       box-shadow: 0 4px 12px rgba(34, 153, 84, 0.2);
     }
 
-    .btn-primary:active {
-      transform: translateY(0);
-    }
-
-    .btn:disabled {
-      background: #95a5a6;
-      opacity: 0.7;
+    .btn-primary:disabled {
+      background: #cccccc;
       cursor: not-allowed;
       transform: none;
       box-shadow: none;
     }
 
-    .error-message {
-      color: #e74c3c;
-      text-align: center;
-      margin: 1rem 0;
-      font-size: 0.875rem;
-    }
-
-    .success-message {
-      color: #229954;
-      text-align: center;
-      margin: 1rem 0;
-      font-size: 0.875rem;
-      font-weight: 500;
-    }
-
     .auth-footer {
-      margin-top: 1.5rem;
       text-align: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.75rem;
-      background: rgba(26, 116, 65, 0.2);
-      padding: 0.75rem;
+      color: white;
+      margin-top: 1.5rem;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.1);
       border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
     .auth-footer p {
-      color: #ffffff;
-      font-weight: 500;
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      margin: 0;
+      margin-bottom: 0.5rem;
     }
 
-    .link-primary {
-      color: #ffffff;
-      text-decoration: none;
-      font-weight: 600;
-      padding: 0.25rem 0.75rem;
-      border-radius: 6px;
-      background: rgba(34, 153, 84, 0.3);
+    .auth-footer .link-primary {
+      color: #229954;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 0.25rem 1rem;
+      border-radius: 4px;
       transition: all 0.3s ease;
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
     }
 
-    .link-primary:hover {
+    .auth-footer .link-primary:hover {
+      background: white;
       text-decoration: none;
-      background: rgba(34, 153, 84, 0.4);
       transform: translateY(-1px);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 2px 8px rgba(34, 153, 84, 0.2);
     }
 
     .privacy-policy {
-      margin-top: 1rem;
       text-align: center;
+      margin-top: 1.5rem;
+      color: rgba(255, 255, 255, 0.8);
     }
 
     .privacy-policy a {
-      color: rgba(255, 255, 255, 0.7);
+      color: rgba(255, 255, 255, 0.8);
       text-decoration: none;
-      font-size: 0.875rem;
-      transition: all 0.3s ease;
+      transition: color 0.3s ease;
     }
 
     .privacy-policy a:hover {
-      color: rgba(255, 255, 255, 0.9);
+      color: white;
     }
 
-    .separator {
-      color: rgba(255, 255, 255, 0.4);
+    .privacy-policy .separator {
       margin: 0 0.5rem;
+      color: rgba(255, 255, 255, 0.4);
     }
 
     @media (max-width: 768px) {
       .content-wrapper {
         flex-direction: column;
+        text-align: center;
         padding: 1rem;
+        gap: 2rem;
+      }
+
+      .register-card {
+        width: 100%;
+        max-width: 500px;
       }
 
       .branding {
-        text-align: center;
-        margin-bottom: 2rem;
-      }
-
-      .login-card {
-        width: 100%;
+        max-width: 100%;
       }
     }
   `]
 })
+
 export class RegisterComponent {
   formData = {
     fullName: '',

@@ -5,6 +5,8 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 
+
+
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -33,7 +35,7 @@ import { Router } from '@angular/router';
           
           <form class="login-form" (ngSubmit)="onSubmit()">
             <div class="form-group">
-              <label class="form-label">Username</label>
+              <label class="form-label">Email</label>
               <div class="input-wrapper">
                 <span class="input-icon">👤</span>
                 <input 
@@ -71,20 +73,15 @@ import { Router } from '@angular/router';
             </div>
 
             <div class="form-actions">
-              
-
               <button type="submit" class="btn btn-primary w-full" [disabled]="isLoading">
                 {{ isLoading ? 'Logging in...' : 'LOG IN' }}
               </button>
             </div>
 
-            <div class="auth-footer">
-              <p>New volunteer?</p>
-              <a routerLink="/register" class="link-primary">Register here</a>
-            </div>
-
-            <div class="privacy-policy">
-              <a routerLink="/privacy-policy">Privacy Policy</a>
+            <div class="auth-links">
+              <a routerLink="/forgot-password" class="link-primary">Forgot password?</a>
+              <span class="divider">•</span>
+              <a routerLink="/register" class="link-primary">Register as Volunteer</a>
             </div>
           </form>
         </div>
@@ -96,7 +93,7 @@ import { Router } from '@angular/router';
       min-height: 100vh;
       position: relative;
       display: flex;
-      background: linear-gradient(135deg, #229954 0%, #27ae60 100%);
+      background: linear-gradient(135deg, #2ecc71, #27ae60);
     }
 
     .login-background {
@@ -121,7 +118,7 @@ import { Router } from '@angular/router';
       width: 120%;
       height: 120%;
       border-radius: 50%;
-      background: #1a7441;
+      background: #229954;
       transform: rotate(-15deg);
     }
 
@@ -131,8 +128,7 @@ import { Router } from '@angular/router';
       right: 15%;
       width: 60px;
       height: 40px;
-      background: #fff;
-      border-radius: 8px;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="%23fff" d="M21 8.5c0-.83-.67-1.5-1.5-1.5S18 7.67 18 8.5s.67 1.5 1.5 1.5S21 9.33 21 8.5zM4.5 8C3.67 8 3 8.67 3 9.5S3.67 11 4.5 11 6 10.33 6 9.5 5.33 8 4.5 8zm9-2.5c0-.83-.67-1.5-1.5-1.5S11 4.67 11 5.5 11.67 7 12.5 7 13.5 6.33 13.5 5.5z"/></svg>');
       animation: float 20s infinite linear;
     }
 
@@ -193,6 +189,7 @@ import { Router } from '@angular/router';
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 4rem;
     }
 
     .branding {
@@ -216,18 +213,16 @@ import { Router } from '@angular/router';
       width: 400px;
       padding: 2rem;
       border-radius: 20px;
-      background: rgba(255, 255, 255, 0.95);
+      background: rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(10px);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1),
-                  0 2px 8px rgba(34, 153, 84, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
     .login-card h2 {
       text-align: center;
       font-size: 1.75rem;
       margin-bottom: 2rem;
-      color: #229954;
-      font-weight: 600;
+      color: white;
     }
 
     .form-group {
@@ -237,17 +232,15 @@ import { Router } from '@angular/router';
     .form-label {
       display: block;
       margin-bottom: 0.5rem;
-      color: #34495e;
-      font-weight: 600;
-      font-size: 0.9rem;
-      letter-spacing: 0.5px;
+      color: white;
+      font-weight: 500;
     }
 
     .input-wrapper {
       position: relative;
-      display: flex;
-      align-items: center;
-      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
     .input-icon {
@@ -255,44 +248,25 @@ import { Router } from '@angular/router';
       left: 1rem;
       top: 50%;
       transform: translateY(-50%);
-      font-size: 1.1rem;
-      color: #229954;
-      opacity: 0.8;
-      transition: all 0.3s ease;
-    }
-
-    .input-wrapper:focus-within .input-icon {
-      opacity: 1;
-      color: #229954;
+      font-size: 1.25rem;
     }
 
     .form-input {
       width: 100%;
-      padding: 0.75rem 1rem 0.75rem 3rem;
-      border: 2px solid rgba(34, 153, 84, 0.1);
-      border-radius: 12px;
+      padding: 1rem 3rem;
+      border: none;
+      background: transparent;
+      color: white;
       font-size: 1rem;
-      background: rgba(178, 182, 176, 0.95);
-      color: #2c3e50;
-      transition: all 0.3s ease;
-      caret-color: #229954;
-      cursor: text;
     }
 
     .form-input::placeholder {
-      color: #95a5a6;
-    }
-
-    .form-input:hover {
-      border-color: rgba(34, 153, 84, 0.3);
-      background: rgba(255, 255, 255, 1);
+      color: rgba(255, 255, 255, 0.6);
     }
 
     .form-input:focus {
       outline: none;
-      border-color: #229954;
-      background: #ffffff;
-      box-shadow: 0 0 0 4px rgba(34, 153, 84, 0.1);
+      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
     }
 
     .toggle-password {
@@ -302,137 +276,60 @@ import { Router } from '@angular/router';
       transform: translateY(-50%);
       background: none;
       border: none;
-      cursor: pointer;
-      color: #229954;
-      opacity: 0.7;
-      transition: all 0.3s ease;
-      padding: 0.5rem;
-    }
-
-    .toggle-password:hover {
-      opacity: 1;
-      color: #1a7441;
-    }
-
-    .form-actions {
-      margin-top: 1.5rem;
-    }
-
-    .btn {
-      cursor: pointer;
-    }
-
-    
-
-    .btn {
-      width: 100%;
-      padding: 0.75rem;
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .btn-primary {
-      background: #229954;
       color: white;
-      border: none;
-      transform: translateY(0);
-      transition: all 0.3s ease;
-    }
-
-    .btn-primary:hover {
-      background: #1a7441;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(34, 153, 84, 0.2);
-    }
-
-    .btn-primary:active {
-      transform: translateY(0);
-    }
-
-    .btn:disabled {
-      background: #95a5a6;
-      opacity: 0.7;
-      cursor: not-allowed;
-      transform: none;
-      box-shadow: none;
+      cursor: pointer;
+      padding: 0;
+      font-size: 1.25rem;
     }
 
     .error-message {
       color: #e74c3c;
+      margin-bottom: 1rem;
       text-align: center;
-      margin: 1rem 0;
-      font-size: 0.875rem;
+      padding: 0.5rem;
+      background: rgba(231, 76, 60, 0.1);
+      border-radius: 4px;
     }
 
-    .auth-footer {
-      margin-top: 1.5rem;
-      text-align: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.75rem;
-      background: rgba(26, 116, 65, 0.2);
-      padding: 0.75rem;
-      border-radius: 8px;
+    .form-actions {
+      margin-bottom: 1rem;
     }
 
-    .auth-footer p {
-      color: #ffffff;
-      font-weight: 500;
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    .auth-links {
+      text-align: center;
+      color: white;
     }
 
     .link-primary {
-      color: #ffffff;
+      color: white;
       text-decoration: none;
-      font-weight: 600;
-      padding: 0.25rem 0.75rem;
-      border-radius: 6px;
-      background: rgba(34, 153, 84, 0.3);
-      transition: all 0.3s ease;
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      font-weight: 500;
     }
 
     .link-primary:hover {
-      text-decoration: none;
-      background: rgba(34, 153, 84, 0.4);
-      transform: translateY(-1px);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      text-decoration: underline;
     }
 
-    .privacy-policy {
-      margin-top: 1rem;
-      text-align: center;
-    }
-
-    .privacy-policy a {
-      color: rgba(255, 255, 255, 0.7);
-      text-decoration: none;
-      font-size: 0.875rem;
-      transition: all 0.3s ease;
-    }
-
-    .privacy-policy a:hover {
-      color: rgba(255, 255, 255, 0.9);
+    .divider {
+      margin: 0 0.5rem;
+      opacity: 0.5;
     }
 
     @media (max-width: 768px) {
       .content-wrapper {
         flex-direction: column;
-        padding: 1rem;
-      }
-
-      .branding {
         text-align: center;
-        margin-bottom: 2rem;
+        padding: 1rem;
+        gap: 2rem;
       }
 
       .login-card {
         width: 100%;
+        max-width: 400px;
+      }
+
+      .branding {
+        max-width: 100%;
       }
     }
   `]
@@ -440,9 +337,9 @@ import { Router } from '@angular/router';
 export class LoginComponent {
   email = '';
   password = '';
+  showPassword = false;
   isLoading = false;
   errorMessage = '';
-  showPassword = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -458,7 +355,7 @@ export class LoginComponent {
     try {
       const user = await this.authService.login(this.email, this.password);
       if (user) {
-        this.router.navigate(['/dashboard']);
+        this.router.navigate(['/account']);
       }
     } catch (error: any) {
       this.errorMessage = error.message || 'Failed to login. Please try again.';
@@ -467,3 +364,10 @@ export class LoginComponent {
     }
   }
 }
+
+
+  
+
+    
+
+    
