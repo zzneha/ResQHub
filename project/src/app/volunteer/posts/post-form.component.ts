@@ -11,52 +11,32 @@ import { PostService } from '../../services/post.service';
   imports: [CommonModule, RouterModule, FormsModule],
   template: `
     <div class="post-form-container">
-      <div class="post-form-header">
-        <div class="container">
-          <h1>{{ isEditMode ? 'Edit Post' : 'Create New Post' }}</h1>
-          <p>{{ isEditMode ? 'Update your existing post' : 'Share important updates with the community' }}</p>
-        </div>
-      </div>
+      <div class="container">
+        <h1>{{ isEditMode ? 'Edit Post' : 'Create New Post' }}</h1>
+        <p>{{ isEditMode ? 'Update your existing post' : 'Share important updates with the community' }}</p>
 
-      <div class="container post-form-content">
         <div class="post-form-card card">
           <form (ngSubmit)="onSubmit()">
             <div class="form-group">
               <label class="form-label">Title</label>
-              <input 
-                type="text" 
+              <input
+                type="text"
                 class="form-input"
                 [(ngModel)]="postForm.title"
                 name="title"
-                required>
+                required
+              />
             </div>
 
             <div class="form-group">
               <label class="form-label">Content</label>
-              <textarea 
+              <textarea
                 class="form-input"
                 [(ngModel)]="postForm.content"
                 name="content"
                 rows="6"
-                required></textarea>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">Image</label>
-              <div *ngIf="postForm.imageUrl" class="image-preview">
-                <img [src]="postForm.imageUrl" alt="Post image">
-                <button type="button" class="remove-image" (click)="removeImage()">×</button>
-              </div>
-              <input 
-                *ngIf="!postForm.imageUrl"
-                type="file" 
-                class="form-input file-input"
-                (change)="onFileSelected($event)"
-                accept="image/*">
-            </div>
-
-            <div *ngIf="errorMessage" class="error-message">
-              {{ errorMessage }}
+                required
+              ></textarea>
             </div>
 
             <div class="form-actions">
@@ -65,135 +45,77 @@ import { PostService } from '../../services/post.service';
                 {{ isLoading ? 'Saving...' : (isEditMode ? 'Update Post' : 'Create Post') }}
               </button>
             </div>
+
+            <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
           </form>
         </div>
       </div>
     </div>
   `,
-  styles: [`
-    .post-form-container {
-      min-height: calc(100vh - 72px);
-      background: var(--background);
-    }
+  styles: [
+    `
+      .post-form-container {
+        min-height: calc(100vh - 72px);
+        background:rgb(55, 55, 55);
+        padding: 2rem;
+      }
 
-    .post-form-header {
-      background: #229954;
-      color: white;
-      padding: 2rem 0;
-    }
+      .form-group {
+        margin-bottom: 1rem;
+      }
 
-    .post-form-header h1 {
-      margin-bottom: 0.5rem;
-      font-size: 2rem;
-    }
+      .form-input {
+        width: 100%;
+        padding: 0.75rem;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+      }
 
-    .post-form-content {
-      padding: 2rem 1.5rem;
-    }
+      .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+        margin-top: 1.5rem;
+      }
 
-    .post-form-card {
-      max-width: 800px;
-      margin: 0 auto;
-    }
+      .btn-primary {
+        background: #229954;
+        color: #fff;
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: 0.3s;
+      }
 
-    .form-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 1rem;
-      margin-top: 2rem;
-    }
+      .btn-primary:hover {
+        background: #1a7441;
+      }
 
-    .file-input {
-      padding: 0.75rem;
-    }
+      .btn-secondary {
+        background: #ddd;
+        color: #333;
+      }
 
-    .image-preview {
-      position: relative;
-      margin-bottom: 1rem;
-      border-radius: 8px;
-      overflow: hidden;
-      max-width: 300px;
-    }
-
-    .image-preview img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    .remove-image {
-      position: absolute;
-      top: 0.5rem;
-      right: 0.5rem;
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      background: rgba(0,0,0,0.5);
-      color: white;
-      border: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.25rem;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-
-    .remove-image:hover {
-      background: rgba(0,0,0,0.7);
-    }
-
-    .error-message {
-      color: var(--error);
-      margin-bottom: 1rem;
-      font-size: 0.875rem;
-    }
-
-    .btn-primary {
-      background: #229954;
-      color: white;
-      border: none;
-      transform: translateY(0);
-      transition: all 0.3s ease;
-    }
-
-    .btn-primary:hover {
-      background: #1a7441;
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(34, 153, 84, 0.2);
-    }
-
-    .btn-secondary {
-      background: rgba(34, 153, 84, 0.1);
-      color: #229954;
-      border: 1px solid rgba(34, 153, 84, 0.2);
-      transition: all 0.3s ease;
-    }
-
-    .btn-secondary:hover {
-      background: rgba(34, 153, 84, 0.15);
-      border-color: rgba(34, 153, 84, 0.3);
-      transform: translateY(-1px);
-    }
-
-    .form-input:focus {
-      outline: none;
-      border-color: #229954;
-      box-shadow: 0 0 0 3px rgba(34, 153, 84, 0.1);
-    }
-  `]
+      .error-message {
+        color: #e74c3c;
+        margin-top: 1rem;
+      }
+      .container{
+        color:rgb(0, 0, 0)
+      }
+    `,
+  ],
 })
 export class PostFormComponent implements OnInit {
   isEditMode = false;
   postId: string | null = null;
   isLoading = false;
   errorMessage = '';
-  selectedFile: File | null = null;
-  
+
   postForm = {
     title: '',
     content: '',
-    imageUrl: ''
   };
 
   constructor(
@@ -206,7 +128,7 @@ export class PostFormComponent implements OnInit {
   ngOnInit() {
     this.postId = this.route.snapshot.paramMap.get('id');
     this.isEditMode = !!this.postId;
-    
+
     if (this.isEditMode && this.postId) {
       this.loadPost(this.postId);
     }
@@ -215,35 +137,21 @@ export class PostFormComponent implements OnInit {
   async loadPost(id: string) {
     try {
       const posts = await this.postService.getPostsByVolunteer(this.authService.getCurrentUser().user_id);
-      const post = posts.find(p => p.id === id);
-      
+      const post = posts.find((p) => p.id === id);
+
       if (post) {
         this.postForm = {
           title: post.title,
           content: post.content,
-          imageUrl: post.image_url || ''
         };
       } else {
         this.errorMessage = 'Post not found';
-        setTimeout(() => {
-          this.router.navigate(['/volunteer/posts']);
-        }, 2000);
+        setTimeout(() => this.router.navigate(['/volunteer/posts']), 2000);
       }
     } catch (error) {
       console.error('Error loading post:', error);
       this.errorMessage = 'Failed to load post';
     }
-  }
-
-  onFileSelected(event: any) {
-    if (event.target.files && event.target.files.length > 0) {
-      this.selectedFile = event.target.files[0];
-    }
-  }
-
-  removeImage() {
-    this.postForm.imageUrl = '';
-    this.selectedFile = null;
   }
 
   async onSubmit() {
@@ -256,31 +164,22 @@ export class PostFormComponent implements OnInit {
     this.errorMessage = '';
 
     try {
-      let imageUrl = this.postForm.imageUrl;
-      
-      // Upload image if selected
-      if (this.selectedFile) {
-        imageUrl = await this.postService.uploadImage(this.selectedFile);
-      }
-      
       if (this.isEditMode && this.postId) {
         // Update existing post
         await this.postService.updatePost(this.postId, {
           title: this.postForm.title,
           content: this.postForm.content,
-          image_url: imageUrl
         });
       } else {
-        // Create new post
+        // Create new post in `camp_updates` table
         await this.postService.createPost({
           volunteer_id: this.authService.getCurrentUser().user_id,
           title: this.postForm.title,
           content: this.postForm.content,
-          image_url: imageUrl
         });
       }
-      
-      this.router.navigate(['/volunteer/posts']);
+
+      this.router.navigate(['/volunteer/forum']);
     } catch (error) {
       console.error('Error saving post:', error);
       this.errorMessage = 'Failed to save post. Please try again.';

@@ -59,6 +59,7 @@ interface Camp {
             <a routerLink="/volunteer/posts" routerLinkActive="active" class="nav-link">My Posts</a>
             <a routerLink="/volunteer/camps" routerLinkActive="active" class="nav-link">Relief Camps</a>
             <a routerLink="/volunteer/search" routerLinkActive="active" class="nav-link">Search People</a>
+            <a routerLink="/volunteer/chat" routerLinkActive="active" class="nav-link">Volunteer Forum</a>
             <a (click)="navigateToResidentForm()" class="nav-link pointer">Add New Resident</a>
           </div>
         </div>
@@ -86,6 +87,13 @@ interface Camp {
                 <p>People Helped</p>
               </div>
             </div>
+            <div class="stat-card card">
+              <div class="stat-icon">💬</div>
+              <div class="stat-content">
+                <h3>{{ forumPostCount }}</h3>
+                <p>Forum Posts</p>
+              </div>
+            </div>
           </div>
 
           <div class="quick-actions card">
@@ -94,6 +102,7 @@ interface Camp {
               <a routerLink="/volunteer/posts/new" class="btn btn-primary">Create Post</a>
               <a routerLink="/volunteer/camps/new" class="btn btn-secondary">Add Relief Camp</a>
               <a routerLink="/volunteer/search" class="btn btn-secondary">Search People</a>
+              <a routerLink="/volunteer/chat" class="btn btn-secondary">Volunteer Forum</a>
             </div>
           </div>
 
@@ -302,7 +311,7 @@ interface Camp {
 
     .stats-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 1.5rem;
       margin-bottom: 1.5rem;
     }
@@ -536,9 +545,35 @@ interface Camp {
       cursor: pointer;
     }
 
+    @media (max-width: 1200px) {
+      .dashboard-content {
+        grid-template-columns: 250px 1fr;
+        gap: 1.5rem;
+      }
+
+      .camps-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      }
+    }
+
+    @media (max-width: 992px) {
+      .dashboard-content {
+        padding: 1.5rem 1rem;
+      }
+
+      .dashboard-header h1 {
+        font-size: 1.75rem;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
     @media (max-width: 768px) {
       .dashboard-content {
         grid-template-columns: 1fr;
+        padding: 1rem;
       }
 
       .stats-grid {
@@ -547,6 +582,97 @@ interface Camp {
 
       .camps-grid {
         grid-template-columns: 1fr;
+      }
+
+      .action-buttons {
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .dashboard-header {
+        padding: 1.5rem 0;
+      }
+
+      .dashboard-header h1 {
+        font-size: 1.5rem;
+      }
+
+      .modal-container {
+        margin: 1rem;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .dashboard-content {
+        padding: 0.75rem;
+      }
+
+      .card {
+        padding: 1rem;
+      }
+
+      .profile-avatar {
+        width: 60px;
+        height: 60px;
+        font-size: 1.25rem;
+      }
+
+      .profile-actions {
+        flex-direction: column;
+      }
+
+      .profile-actions .btn {
+        width: 100%;
+      }
+
+      .camp-card {
+        padding: 1rem;
+      }
+
+      .camp-actions {
+        flex-direction: column;
+      }
+
+      .camp-actions .btn {
+        width: 100%;
+      }
+
+      .modal-header {
+        padding: 1rem;
+      }
+
+      .modal-body {
+        padding: 1rem;
+      }
+
+      .modal-footer {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .modal-footer .btn {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .dashboard-header h1 {
+        font-size: 1.25rem;
+      }
+
+      .stat-card {
+        padding: 1rem;
+      }
+
+      .stat-icon {
+        font-size: 1.5rem;
+      }
+
+      .stat-content h3 {
+        font-size: 1.25rem;
       }
     }
   `]
@@ -559,6 +685,7 @@ export class DashboardComponent implements OnInit {
   postCount = 0;
   campCount = 0;
   memberCount = 0;
+  forumPostCount = 0;
   showEditProfile = false;
   profileForm = {
     fullName: '',
@@ -604,12 +731,23 @@ export class DashboardComponent implements OnInit {
       this.campCount = this.camps.length;
 
       // Load recent posts
-      const posts = await this.postService.getPosts(this.currentUser.user_id);
-      this.posts = posts;
-      this.postCount = posts.length;
+      // const posts = await this.postService.getPosts(this.currentUser.user_id);
+      // this.posts = posts;
+      // this.postCount = posts.length;
 
       // Calculate total members helped
       this.memberCount = this.camps.reduce((total, camp) => total + (camp.resident_count || 0), 0);
+
+      // Load forum posts count
+      const { data: forumPosts, error: forumError } = await this.authService.supabase
+        .from('forum_posts')
+        .select('id', { count: 'exact' });
+
+      if (forumError) {
+        console.error('Error loading forum posts count:', forumError);
+      } else {
+        this.forumPostCount = forumPosts?.length || 0;
+      }
     } catch (error) {
       console.error('Error loading dashboard data:', error);
     }

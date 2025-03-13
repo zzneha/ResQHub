@@ -1,360 +1,297 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { SubscriptionService } from '../services/subscription.service';
 
 @Component({
   selector: 'app-footer',
   standalone: true,
-  imports: [CommonModule, RouterLink, MatIconModule],
+  imports: [CommonModule, RouterModule, FormsModule],
   template: `
     <footer class="footer">
       <div class="container">
-        <div class="footer-grid">
-          <!-- Brand Section -->
+        <div class="footer-content">
           <div class="brand-section">
-            <a routerLink="/" class="brand-link">
-              <mat-icon class="brand-icon">emergency</mat-icon>
-              <span class="brand-name">ResQHub</span>
-            </a>
-            <p class="brand-description">Enhancing community resilience through effective disaster response and recovery.</p>
-            <div class="social-links">
-              <a href="#" class="social-link">
-                <mat-icon>facebook</mat-icon>
-              </a>
-              <a href="#" class="social-link">
-                <mat-icon>twitter</mat-icon>
-              </a>
-              <a href="#" class="social-link">
-                <mat-icon>instagram</mat-icon>
-              </a>
-            </div>
+            <h2>ResQHub</h2>
+            <p class="tagline">Empowering communities through coordinated disaster response</p>
           </div>
 
-          <!-- Quick Links Section -->
-          <div class="footer-section">
-            <h3 class="footer-heading">Quick Links</h3>
-            <ul class="footer-links">
-              <li>
-                <a routerLink="/about" class="footer-link">
-                  <mat-icon class="link-icon">arrow_right</mat-icon>
-                  <span>About Us</span>
-                </a>
-              </li>
-              <li>
-                <a routerLink="/blog" class="footer-link">
-                  <mat-icon class="link-icon">arrow_right</mat-icon>
-                  <span>Blog</span>
-                </a>
-              </li>
-              <li>
-                <a routerLink="/contact" class="footer-link">
-                  <mat-icon class="link-icon">arrow_right</mat-icon>
-                  <span>Contact</span>
-                </a>
-              </li>
-            </ul>
+          <div class="quick-links">
+            <h3>Quick Links</h3>
+            <nav>
+              <a routerLink="/home">Home</a>
+              <a routerLink="/volunteer/dashboard">Dashboard</a>
+              <a routerLink="/report">Report Incident</a>
+              <a routerLink="/training">Training</a>
+            </nav>
           </div>
 
-          <!-- Resources Section -->
-          <div class="footer-section">
-            <h3 class="footer-heading">Resources</h3>
-            <ul class="footer-links">
-              <li>
-                <a routerLink="/training" class="footer-link">
-                  <mat-icon class="link-icon">school</mat-icon>
-                  <span>Training</span>
-                </a>
-              </li>
-              <li>
-                <a routerLink="/volunteer" class="footer-link">
-                  <mat-icon class="link-icon">volunteer_activism</mat-icon>
-                  <span>Volunteer</span>
-                </a>
-              </li>
-              <li>
-                <a routerLink="/faq" class="footer-link">
-                  <mat-icon class="link-icon">help_outline</mat-icon>
-                  <span>FAQs</span>
-                </a>
-              </li>
-            </ul>
+          <div class="resources">
+            <h3>Resources</h3>
+            <nav>
+              <a routerLink="/privacy-policy">Privacy Policy</a>
+              <a routerLink="/terms">Terms of Service</a>
+              <a routerLink="/contact">Contact Us</a>
+              <a routerLink="/about">About Us</a>
+            </nav>
           </div>
 
-          <!-- Emergency Section -->
-          <div class="footer-section">
-            <h3 class="footer-heading">Emergency</h3>
-            <ul class="footer-links">
-              <li>
-                <a routerLink="/report" class="footer-link emergency-link">
-                  <mat-icon class="emergency-icon">warning</mat-icon>
-                  <span>Report Incident</span>
-                </a>
-              </li>
-              <li>
-                <a routerLink="/shelters" class="footer-link emergency-link">
-                  <mat-icon class="emergency-icon">home</mat-icon>
-                  <span>Find Shelter</span>
-                </a>
-              </li>
-              <li>
-                <a routerLink="/contacts" class="footer-link emergency-link">
-                  <mat-icon class="emergency-icon">phone_in_talk</mat-icon>
-                  <span>Emergency Contacts</span>
-                </a>
-              </li>
-            </ul>
+          <div class="newsletter">
+            <h3>Stay Updated</h3>
+            <p>Subscribe to our newsletter for updates and alerts</p>
+            <form (ngSubmit)="onSubscribe()" class="subscribe-form">
+              <div class="input-group">
+                <input 
+                  type="email" 
+                  [(ngModel)]="email"
+                  name="email"
+                  placeholder="Enter your email"
+                  required
+                  [class.error]="!!errorMessage"
+                >
+                <button 
+                  type="submit" 
+                  [disabled]="isLoading || !email">
+                  {{ isLoading ? 'Subscribing...' : 'Subscribe' }}
+                </button>
+              </div>
+              @if (errorMessage) {
+                <div class="error-message">{{ errorMessage }}</div>
+              }
+              @if (successMessage) {
+                <div class="success-message">{{ successMessage }}</div>
+              }
+            </form>
           </div>
         </div>
 
-        <!-- Newsletter Section -->
-        <div class="newsletter-section">
-          <div class="newsletter-container">
-            <h4 class="newsletter-heading">Subscribe to Our Alerts</h4>
-            <div class="newsletter-form">
-              <input 
-                type="email" 
-                placeholder="Enter your email" 
-                class="newsletter-input"
-              >
-              <button class="newsletter-button">
-                Subscribe
-              </button>
-            </div>
+        <div class="footer-bottom">
+          <p>&copy; {{ currentYear }} ResQHub. All rights reserved.</p>
+          <div class="social-links">
+            <a href="#" target="_blank" rel="noopener noreferrer">Twitter</a>
+            <a href="#" target="_blank" rel="noopener noreferrer">Facebook</a>
+            <a href="#" target="_blank" rel="noopener noreferrer">LinkedIn</a>
           </div>
-        </div>
-
-        <!-- Copyright Section -->
-        <div class="copyright-section">
-          <p class="copyright-text">&copy; {{ currentYear }} ResQHub. All rights reserved.</p>
         </div>
       </div>
     </footer>
+  `,
+  styles: [`
+    .footer {
+      background:rgb(0, 0, 0);
+      color: white;
+      padding: 4rem 0 2rem;
+    }
 
-    <style>
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .footer-content {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .brand-section h2 {
+      font-size: 1.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .tagline {
+      opacity: 0.9;
+      line-height: 1.6;
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      margin-bottom: 1.25rem;
+      font-weight: 600;
+    }
+
+    nav {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    nav a {
+      color: rgba(255, 255, 255, 0.9);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    nav a:hover {
+      color: white;
+    }
+
+    .newsletter p {
+      margin-bottom: 1rem;
+      opacity: 0.9;
+    }
+
+    .subscribe-form {
+      width: 100%;
+    }
+
+    .input-group {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    input {
+      flex: 1;
+      padding: 0.75rem 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      font-size: 0.875rem;
+    }
+
+    input::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    input:focus {
+      outline: none;
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    input.error {
+      border-color: #e74c3c;
+    }
+
+    button {
+      padding: 0.75rem 1.5rem;
+      background: #229954;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    button:hover:not(:disabled) {
+      background: #27ae60;
+      transform: translateY(-1px);
+    }
+
+    button:disabled {
+      background: rgba(255, 255, 255, 0.2);
+      cursor: not-allowed;
+    }
+
+    .error-message {
+      color: #e74c3c;
+      font-size: 0.875rem;
+      margin-top: 0.5rem;
+    }
+
+    .success-message {
+      color: #2ecc71;
+      font-size: 0.875rem;
+      margin-top: 0.5rem;
+    }
+
+    .footer-bottom {
+      padding-top: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .social-links a {
+      color: rgba(255, 255, 255, 0.9);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .social-links a:hover {
+      color: white;
+    }
+
+    @media (max-width: 992px) {
+      .footer-content {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
       .footer {
-        background: linear-gradient(to bottom, #1a1a1a, #000000);
-        color: #cccccc;
-        padding: 60px 0;
+        padding: 3rem 0 1.5rem;
       }
 
-      .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 20px;
+      .footer-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
       }
 
-      .footer-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 40px;
+      .input-group {
+        flex-direction: column;
       }
 
-      .brand-section {
-        margin-bottom: 30px;
+      button {
+        width: 100%;
       }
 
-      .brand-link {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        text-decoration: none;
-      }
-
-      .brand-icon {
-        color: #229954;
-        transition: transform 0.3s;
-      }
-
-      .brand-name {
-        font-size: 24px;
-        font-weight: bold;
-        color: white;
-        transition: color 0.3s;
-      }
-
-      .brand-link:hover .brand-icon {
-        transform: scale(1.1) rotate(12deg);
-      }
-
-      .brand-link:hover .brand-name {
-        color: #229954;
-      }
-
-      .brand-description {
-        color: #999;
-        margin: 20px 0;
-        line-height: 1.6;
-      }
-
-      .social-links {
-        display: flex;
-        gap: 20px;
-        margin-top: 20px;
-      }
-
-      .social-link {
-        color: #999;
-        transition: color 0.3s, transform 0.3s;
-      }
-
-      .social-link:hover {
-        color: white;
-        transform: scale(1.1);
-      }
-
-      .footer-section {
-        margin-bottom: 30px;
-      }
-
-      .footer-heading {
-        color: white;
-        font-size: 18px;
-        font-weight: 600;
-        margin-bottom: 20px;
-        position: relative;
-        padding-bottom: 10px;
-      }
-
-      .footer-heading::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 40px;
-        height: 2px;
-        background-color: #229954;
-      }
-
-      .footer-links {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-      }
-
-      .footer-link {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        color: #999;
-        text-decoration: none;
-        margin-bottom: 15px;
-        transition: color 0.3s;
-      }
-
-      .footer-link:hover {
-        color: white;
-      }
-
-      .link-icon {
-        font-size: 18px;
-        transition: color 0.3s;
-      }
-
-      .footer-link:hover .link-icon {
-        color: #229954;
-      }
-
-      .emergency-link {
-        color: #999;
-      }
-
-      .emergency-icon {
-        color: #229954;
-      }
-
-      .emergency-link:hover {
-        color: #229954;
-      }
-
-      .newsletter-section {
-        border-top: 1px solid #333;
-        margin-top: 40px;
-        padding-top: 40px;
-      }
-
-      .newsletter-container {
-        max-width: 500px;
-        margin: 0 auto;
+      .footer-bottom {
+        flex-direction: column;
         text-align: center;
+        gap: 1rem;
       }
-
-      .newsletter-heading {
-        color: white;
-        font-size: 20px;
-        margin-bottom: 20px;
-      }
-
-      .newsletter-form {
-        display: flex;
-        gap: 10px;
-      }
-
-      .newsletter-input {
-        flex: 1;
-        padding: 12px 16px;
-        border-radius: 6px;
-        border: 1px solid #333;
-        background-color: rgba(51, 51, 51, 0.5);
-        color: white;
-        transition: all 0.3s;
-      }
-
-      .newsletter-input:focus {
-        outline: none;
-        border-color: #229954;
-        box-shadow: 0 0 0 2px rgba(34, 153, 84, 0.2);
-      }
-
-      .newsletter-button {
-        padding: 12px 24px;
-        background-color: #229954;
-        color: white;
-        border: none;
-        border-radius: 6px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.3s;
-      }
-
-      .newsletter-button:hover {
-        background-color: #1a7441;
-        transform: scale(1.05);
-      }
-
-      .copyright-section {
-        border-top: 1px solid #333;
-        margin-top: 40px;
-        padding-top: 20px;
-        text-align: center;
-      }
-
-      .copyright-text {
-        color: #666;
-        font-size: 14px;
-      }
-
-      /* Responsive Design */
-      @media (max-width: 768px) {
-        .footer-grid {
-          grid-template-columns: 1fr;
-        }
-
-        .footer-section {
-          margin-top: 30px;
-        }
-
-        .newsletter-form {
-          flex-direction: column;
-        }
-
-        .newsletter-button {
-          width: 100%;
-        }
-      }
-    </style>
-  `
+    }
+  `]
 })
 export class FooterComponent {
+  email = '';
+  isLoading = false;
+  errorMessage = '';
+  successMessage = '';
   currentYear = new Date().getFullYear();
+
+  constructor(private subscriptionService: SubscriptionService) {}
+
+  async onSubscribe() {
+    if (!this.email) {
+      this.errorMessage = 'Please enter your email address';
+      return;
+    }
+
+    if (!this.isValidEmail(this.email)) {
+      this.errorMessage = 'Please enter a valid email address';
+      return;
+    }
+
+    this.isLoading = true;
+    this.errorMessage = '';
+    this.successMessage = '';
+
+    try {
+      await this.subscriptionService.subscribe(this.email);
+      this.successMessage = 'Thank you for subscribing! Please check your email for confirmation.';
+      this.email = '';
+    } catch (error: any) {
+      this.errorMessage = error.message || 'Failed to subscribe. Please try again.';
+    } finally {
+      this.isLoading = false;
+    }
+  }
+
+  private isValidEmail(email: string): boolean {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
 } 
+

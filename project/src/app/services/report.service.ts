@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
+import { EmailService } from './email.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,10 @@ import { Router } from '@angular/router';
 export class ReportService {
   private supabase: SupabaseClient;
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private emailService: EmailService
+  ) {
     // Initialize Supabase client
     this.supabase = createClient(
       environment.supabaseUrl,
@@ -163,7 +167,7 @@ export class ReportService {
         .from('reports')
         .insert([{
           ...reportData,
-          user_id: session.user.id, // Add the user_id to the report
+          user_id: session.user.id,
           created_at: new Date().toISOString()
         }])
         .select()
@@ -171,6 +175,22 @@ export class ReportService {
 
       if (error) {
         throw new Error(`Failed to submit report: ${error.message}`);
+      }
+
+      // Get admin emails to notify
+      const { data: admins } = await this.supabase
+        .from('admin_profiles')
+        .select('email')
+        .eq('is_active', true);
+
+      if (admins && admins.length > 0) {
+        // Send notification to all active admins
+        for (const admin of admins) {
+          await this.emailService.sendIncidentReportEmail(admin.email, {
+            ...data,
+            id: data.id
+          });
+        }
       }
 
       return data;

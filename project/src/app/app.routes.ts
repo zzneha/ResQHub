@@ -8,7 +8,10 @@ import { CampFormComponent } from './volunteer/camps/camp-form.component';
 import { CampListComponent } from './volunteer/camps/camp-list.component';
 import { CampResidentFormComponent } from './volunteer/residents/camp-resident-form.component';
 import { ChatComponent } from './volunteer/chat/chat.component';
+import { PostFormComponent } from './volunteer/posts/post-form.component';
+import { PostListComponent } from './volunteer/posts/post-list.component';
 import { AuthGuard } from './guards/auth.guard';
+import { AdminGuard } from './guards/admin.guard';
 
 
 export const routes: Routes = [
@@ -26,7 +29,10 @@ export const routes: Routes = [
       { path: 'camps/:campId/residents/new', component: CampResidentFormComponent },
       { path: 'camps/:campId/residents/:residentId/edit', component: CampResidentFormComponent },
       { path: 'camps', component: CampListComponent },
-      { path: 'chat', component: ChatComponent }
+      { path: 'chat', component: ChatComponent },
+      { path: 'posts', component: PostListComponent },
+      { path: 'posts/new', component: PostFormComponent },
+      { path: 'posts/edit/:id', component: PostFormComponent }
     ]
   },
   { 
@@ -35,6 +41,11 @@ export const routes: Routes = [
     canActivate: [AuthGuard]
   },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
-
+  {
+    path: 'admin/subscribers',
+    loadComponent: () => import('./admin/subscriber-management.component')
+      .then(m => m.SubscriberManagementComponent),
+    canActivate: [AuthGuard, AdminGuard]
+  },
   { path: '**', redirectTo: '/home' } // Catch-all for unknown routes
 ];

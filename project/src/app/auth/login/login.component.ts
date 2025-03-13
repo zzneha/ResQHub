@@ -315,12 +315,43 @@ import { Router } from '@angular/router';
       opacity: 0.5;
     }
 
+    @media (max-width: 1200px) {
+      .content-wrapper {
+        max-width: 1000px;
+        gap: 3rem;
+      }
+
+      .branding h1 {
+        font-size: 2.5rem;
+      }
+    }
+
+    @media (max-width: 992px) {
+      .content-wrapper {
+        max-width: 800px;
+        gap: 2rem;
+      }
+
+      .branding h1 {
+        font-size: 2.25rem;
+      }
+
+      .tagline {
+        font-size: 1.125rem;
+      }
+
+      .login-card {
+        width: 350px;
+      }
+    }
+
     @media (max-width: 768px) {
       .content-wrapper {
         flex-direction: column;
         text-align: center;
-        padding: 1rem;
+        padding: 1.5rem;
         gap: 2rem;
+        justify-content: center;
       }
 
       .login-card {
@@ -330,6 +361,80 @@ import { Router } from '@angular/router';
 
       .branding {
         max-width: 100%;
+      }
+
+      .branding h1 {
+        font-size: 2rem;
+      }
+
+      .animated-scene {
+        opacity: 0.5;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .content-wrapper {
+        padding: 1rem;
+      }
+
+      .login-card {
+        padding: 1.5rem;
+      }
+
+      .branding h1 {
+        font-size: 1.75rem;
+      }
+
+      .tagline {
+        font-size: 1rem;
+      }
+
+      .login-card h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .form-input {
+        padding: 0.875rem 2.75rem;
+        font-size: 0.9375rem;
+      }
+
+      .input-icon {
+        font-size: 1.125rem;
+        left: 0.875rem;
+      }
+
+      .toggle-password {
+        right: 0.875rem;
+        font-size: 1.125rem;
+      }
+
+      .auth-links {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .divider {
+        display: none;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .login-card {
+        padding: 1.25rem;
+      }
+
+      .branding h1 {
+        font-size: 1.5rem;
+      }
+
+      .login-card h2 {
+        font-size: 1.25rem;
+      }
+
+      .form-input {
+        padding: 0.75rem 2.5rem;
+        font-size: 0.875rem;
       }
     }
   `]

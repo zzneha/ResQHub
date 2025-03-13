@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { environment } from '../../environments/environment';
+import { EmailService } from './email.service';
 
 interface VolunteerRegistration {
   fullName: string;
@@ -15,7 +16,7 @@ interface VolunteerRegistration {
 export class VolunteerService {
   private supabase: SupabaseClient;
 
-  constructor() {
+  constructor(private emailService: EmailService) {
     this.supabase = createClient(
       environment.supabaseUrl,
       environment.supabaseKey
@@ -32,16 +33,11 @@ export class VolunteerService {
       
       if (insertError) throw insertError;
 
-      // Then trigger email using Supabase's built-in email service
-      const { error: emailError } = await this.supabase.auth.admin.createUser({
-        email: data.email,
-        email_confirm: true,
-        user_metadata: {
-          full_name: data.fullName
-        }
-      });
-
-      if (emailError) throw emailError;
+      // Send welcome email using Resend
+      await this.emailService.sendVolunteerWelcomeEmail(
+        data.email,
+        data.fullName
+      );
 
       // Insert into email queue table for tracking
       const { error: queueError } = await this.supabase
@@ -49,7 +45,7 @@ export class VolunteerService {
         .insert({
           recipient_email: data.email,
           recipient_name: data.fullName,
-          status: 'pending',
+          status: 'sent',
           template: 'volunteer_registration'
         });
 

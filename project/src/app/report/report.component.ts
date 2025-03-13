@@ -247,8 +247,6 @@ interface LocationData {
       background: #95a5a6;
     }
 
-    
-
     .content-wrapper {
       position: relative;
       z-index: 1;
@@ -417,10 +415,17 @@ interface LocationData {
       align-items: center;
       justify-content: center;
       gap: 0.5rem;
+      width: 100%;
+      padding: 1rem;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
     }
 
     .btn-primary:hover {
       background: #1a7441;
+      transform: translateY(-1px);
     }
 
     .btn-primary:disabled {
@@ -428,24 +433,6 @@ interface LocationData {
       cursor: not-allowed;
       transform: none;
       box-shadow: none;
-    }
-
-    @media (max-width: 768px) {
-      .report-container {
-        padding: 1rem 0;
-      }
-
-      .content-wrapper {
-        padding: 0 1rem;
-      }
-
-      .report-card {
-        padding: 1.5rem;
-      }
-
-      .card-header h1 {
-        font-size: 2rem;
-      }
     }
 
     .map-container {
@@ -485,6 +472,138 @@ interface LocationData {
       z-index: 10;
     }
 
+    /* Responsive Styles */
+    @media (max-width: 1200px) {
+      .content-wrapper {
+        max-width: 800px;
+      }
+    }
+
+    @media (max-width: 992px) {
+      .content-wrapper {
+        max-width: 700px;
+      }
+
+      .card-header h1 {
+        font-size: 2.25rem;
+      }
+
+      .tagline {
+        font-size: 1rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .report-container {
+        padding: 1rem 0;
+      }
+
+      .content-wrapper {
+        padding: 0 1rem;
+      }
+
+      .report-card {
+        padding: 1.5rem;
+        border-radius: 16px;
+      }
+
+      .card-header {
+        margin-bottom: 2rem;
+      }
+
+      .card-header h1 {
+        font-size: 2rem;
+      }
+
+      .form-group {
+        margin-bottom: 1.25rem;
+      }
+
+      .form-input {
+        padding: 0.875rem 2.75rem;
+        font-size: 0.9375rem;
+      }
+
+      .map {
+        height: 250px;
+      }
+
+      .animated-scene {
+        display: none;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .report-container {
+        padding: 0.5rem 0;
+      }
+
+      .content-wrapper {
+        padding: 0 0.75rem;
+      }
+
+      .report-card {
+        padding: 1.25rem;
+        border-radius: 12px;
+      }
+
+      .card-header h1 {
+        font-size: 1.75rem;
+      }
+
+      .tagline {
+        font-size: 0.9375rem;
+      }
+
+      .form-label {
+        font-size: 0.9375rem;
+      }
+
+      .form-input {
+        padding: 0.75rem 2.5rem;
+        font-size: 0.875rem;
+      }
+
+      .input-icon {
+        font-size: 1.125rem;
+        left: 0.875rem;
+      }
+
+      .map {
+        height: 200px;
+      }
+
+      .file-input::before {
+        padding: 0.375rem 0.75rem;
+        font-size: 0.875rem;
+      }
+
+      .btn-primary {
+        padding: 0.875rem;
+        font-size: 0.9375rem;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .report-card {
+        padding: 1rem;
+      }
+
+      .card-header h1 {
+        font-size: 1.5rem;
+      }
+
+      .form-input {
+        padding: 0.75rem 2.25rem;
+        font-size: 0.8125rem;
+      }
+
+      .map {
+        height: 180px;
+      }
+    }
+
+    /* Hide Mapbox branding */
     :host ::ng-deep .mapboxgl-ctrl-logo {
       display: none !important;
     }
