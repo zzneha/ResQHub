@@ -1,0 +1,286 @@
+/* Global styles */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Primary Colors */
+  --primary-dark: #322d29;
+  --primary-accent: #72383d;
+  --primary-secondary: #ac9cbd;
+  --primary-neutral: #d1c7bd;
+  --primary-light: #d9d9d9;
+  --background-main: #efe9e1;
+  
+  /* Functional Colors */
+  --text-primary: #000000;
+  --text-secondary: #322d29;
+  --background: var(--background-main);
+  --surface: rgba(209, 199, 189, 0.15);
+  --error: #72383d;
+  --success: #322d29;
+  --warning: #ac9cbd;
+  --glass-border: rgba(209, 199, 189, 0.15);
+  --glass-shadow: 0 8px 32px 0 rgba(50, 45, 41, 0.25);
+  --backdrop-blur: blur(12px);
+
+  /* Dark mode variables */
+  --dark-background: #322d29;
+  --dark-surface: rgba(50, 45, 41, 0.25);
+  --dark-text-primary: #efe9e1;
+  --dark-text-secondary: #d1c7bd;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #efe9e1, #d1c7bd, #efe9e1);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+body.dark-mode {
+  background: linear-gradient(135deg, #322d29, #72383d, #322d29);
+  color: var(--dark-text-primary);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}
+
+.btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1px solid var(--glass-border);
+  backdrop-filter: var(--backdrop-blur);
+  font-size: 0.9375rem;
+}
+
+.btn-primary {
+  background: var(--primary-accent);
+  color: var(--background-main);
+  box-shadow: var(--glass-shadow);
+}
+
+.btn-primary:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px 0 rgba(50, 45, 41, 0.35);
+}
+
+.btn-secondary {
+  background: var(--surface);
+  color: var(--text-primary);
+  border: 1px solid var(--primary-neutral);
+}
+
+.btn-secondary:hover {
+  background: rgba(209, 199, 189, 0.25);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px 0 rgba(50, 45, 41, 0.2);
+}
+
+.card {
+  background: var(--background-main);
+  border-radius: 16px;
+  backdrop-filter: var(--backdrop-blur);
+  border: 1px solid var(--primary-neutral);
+  box-shadow: var(--glass-shadow);
+  padding: 2rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px 0 rgba(50, 45, 41, 0.3);
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--primary-neutral);
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: var(--background-main);
+  color: var(--text-primary);
+  backdrop-filter: var(--backdrop-blur);
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--primary-accent);
+  box-shadow: 0 0 0 3px rgba(114, 56, 61, 0.2);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(10px);
+    background: var(--background-main);
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0);
+    /* background: var(--primary-neutral); */
+  }
+}
+
+@keyframes slideIn {
+  from { 
+    transform: translateX(-20px); 
+    opacity: 0;
+    background: var(--primary-dark);
+  }
+  to { 
+    transform: translateX(0); 
+    opacity: 1;
+    /* background: var(--primary-accent); */
+  }
+}
+
+/* Footer Styles */
+.footer {
+  background: var(--background-main);
+  padding: 4rem 0;
+  margin-top: 6rem;
+  border-top: 1px solid var(--primary-neutral);
+  backdrop-filter: var(--backdrop-blur);
+}
+
+.footer-content {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}
+
+.footer-section h3 {
+  margin-bottom: 1.5rem;
+  color: var(--text-secondary);
+}
+
+.footer-links {
+  list-style: none;
+}
+
+.footer-links li {
+  margin-bottom: 0.75rem;
+}
+
+.footer-links a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: var(--primary-accent);
+}
+
+.footer-bottom {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--primary-neutral);
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+/* Dark mode styles */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: var(--dark-background);
+    --surface: var(--dark-surface);
+    --text-primary: var(--dark-text-primary);
+    --text-secondary: var(--dark-text-secondary);
+  }
+
+  .form-input {
+    background: rgba(50, 45, 41, 0.1);
+    border-color: var(--primary-neutral);
+    color: var(--dark-text-primary);
+  }
+
+  .form-input:focus {
+    border-color: var(--primary-accent);
+  }
+
+  .card {
+    background: var(--dark-surface);
+  }
+
+  .footer {
+    background: var(--dark-surface);
+    border-top-color: var(--primary-neutral);
+  }
+
+  .footer-bottom {
+    border-top-color: var(--primary-neutral);
+  }
+}
+
+/* Glass morphism specific utilities */
+.glass {
+  background: rgba(239, 233, 225, 0.25);
+  backdrop-filter: var(--backdrop-blur);
+  border: 1px solid var(--primary-neutral);
+  box-shadow: var(--glass-shadow);
+}
+
+.glass-hover {
+  transition: all 0.3s ease;
+}
+
+.glass-hover:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px 0 rgba(50, 45, 41, 0.37);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(239, 233, 225, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-accent);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-dark);
+}
