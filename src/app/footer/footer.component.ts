@@ -43,15 +43,15 @@ import { FormsModule } from '@angular/forms';
                 </a>
               </li>
               <li>
-                <a routerLink="/blog" class="footer-link">
+                <a routerLink="/forum" class="footer-link">
                   <mat-icon class="link-icon">arrow_right</mat-icon>
-                  <span>Blog</span>
+                  <span>Forum</span>
                 </a>
               </li>
               <li>
                 <a routerLink="/contact" class="footer-link">
                   <mat-icon class="link-icon">arrow_right</mat-icon>
-                  <span>Contact</span>
+                  <span>Contact Us</span>
                 </a>
               </li>
             </ul>
@@ -68,17 +68,12 @@ import { FormsModule } from '@angular/forms';
                 </a>
               </li>
               <li>
-                <a routerLink="/volunteer" class="footer-link">
+                <a routerLink="/register" class="footer-link">
                   <mat-icon class="link-icon">volunteer_activism</mat-icon>
                   <span>Volunteer</span>
                 </a>
               </li>
-              <li>
-                <a routerLink="/faq" class="footer-link">
-                  <mat-icon class="link-icon">help_outline</mat-icon>
-                  <span>FAQs</span>
-                </a>
-              </li>
+             
             </ul>
           </div>
 
