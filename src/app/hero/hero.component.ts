@@ -128,27 +128,12 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 }
 
 
-//     .hero-image {
-//       border-radius: 24px;
-//       overflow: hidden;
-//       transform: translateY(20px);
-//       opacity: 0;
-//       animation: fadeIn 0.5s 0.8s forwards;
-//     }
-
-//     .hero-image img {
-//       width: 100%;
-//       height: auto;
-//       display: block;
-//       transition: transform 0.3s ease;
-//     }
-  
-// }
+     
 
 
-//     .hero-image:hover img {
-//       transform: scale(1.05);
-//     }
+     .hero-image:hover img {
+      transform: scale(1.05);
+     }
 
     .features {
       padding: 4rem 0;

@@ -107,7 +107,24 @@ export class MapboxService {
            lat >= this.KERALA_BOUNDS[0][1] && 
            lat <= this.KERALA_BOUNDS[1][1];
   }
+ // In mapbox.service.ts
+async getDirections(start: [number, number], end: [number, number]): Promise<any> {
+  try {
+    // Ensure your API key is valid
+    // Ensure coordinates are in the correct format [longitude, latitude]
+    const url = `https://api.mapbox.com/directions/v5/mapbox/driving/${start[0]},${start[1]};${end[0]},${end[1]}?steps=true&geometries=geojson&access_token=${mapboxgl.accessToken}`;
+    
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching directions:', error);
+    throw error;
+  }
 }
+} 
 
 export interface LocationResult {
   address: string;

@@ -23,7 +23,7 @@ import { ReportService } from '../services/report.service';
         <nav class="nav-links">
           <a routerLink="/home" routerLinkActive="active" class="nav-link">Home</a>
           <a routerLink="/training" routerLinkActive="active" class="nav-link">Training</a>
-          <!-- <a routerLink="/shelters" routerLinkActive="active" class="nav-link">Find Shelter</a> -->
+          <a routerLink="/shelters" routerLinkActive="active" class="nav-link">Find Shelter</a>
 
           <a routerLink="/forum" routerLinkActive="active" class="nav-link">Forum</a>
         </nav>
