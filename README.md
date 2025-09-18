@@ -40,9 +40,6 @@ The system empowers communities during crises by ensuring **real-time informatio
 ---
 
 ## 📂 Project Structure
-
-```
-
 src/
 ├── app/
 │    ├── components/       # Angular components (dashboard, forms, footer, etc.)
@@ -50,7 +47,6 @@ src/
 │    ├── guards/           # Auth guards for route protection
 │    └── environments/     # Supabase environment configs
 └──|
-````
 
 ---
 
