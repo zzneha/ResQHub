@@ -49,7 +49,7 @@ src/
 │    ├── services/         # Supabase and utility services
 │    ├── guards/           # Auth guards for route protection
 │    └── environments/     # Supabase environment configs
-
+└──|
 ````
 
 ---
